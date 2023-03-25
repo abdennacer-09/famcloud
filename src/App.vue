@@ -1,14 +1,33 @@
 <template>
-  <nav>
+ <navbar></navbar>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-  </nav>
+  </nav> -->
   <router-view />
 </template>
+ 
+<script>
+
+  import navbar from "@/components/header.vue";
+
+  export default{
+    components: {
+      navbar
+    },
+    data(){
+      return{
+        isfamcloud : false,
+      }
+    }
+  }
+</script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,600;1,200&display=swap');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
