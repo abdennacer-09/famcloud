@@ -612,6 +612,7 @@ export default {
 
     .recommendations{
         /* padding-left: 264px; */
+        margin-top: 39px;
     }
 
     .rec-top{
