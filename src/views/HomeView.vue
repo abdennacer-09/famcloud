@@ -20,7 +20,7 @@
         </div>
         <div class="col-sm-4">
           <button class="listen-btn"> <span class="text-listen-btn"> Listen to Shelby Sawy </span> <img class="icon-listen-btn" src="../assets/images/spotify2.png" alt=""></button>
-          <img style=" height: 364px;  object-fit: cover;" class="image-artist" src="../assets/images/img3Home.png" alt="">
+          <img class="image-artist"  src="../assets/images/kygo.png" alt="">
         </div>
       </div>
     </div>
@@ -128,8 +128,44 @@
                         <img src="../assets/images/shootout.jpeg" alt="">
                     </div>
                     <div class="text-content">
-                        <h5>Alone</h5>
+                        <h5>On my way</h5>
                         <p>Alan Walker</p>
+                    </div>
+                </div>
+                <div class="song-item">
+                    <div class="img-content-song">
+                        <img src="../assets/images/atlantis.jpeg" alt="">
+                    </div>
+                    <div class="text-content">
+                        <h5>Dark Side</h5>
+                        <p>Alan Walker</p>
+                    </div>
+                </div>
+                <div class="song-item">
+                    <div class="img-content-song">
+                        <img src="../assets/images/freefall.jpg" alt="">
+                    </div>
+                    <div class="text-content">
+                        <h5>Sweet Dreams</h5>
+                        <p>Alan Walker</p>
+                    </div>
+                </div>
+                <div class="song-item">
+                    <div class="img-content-song">
+                        <img src="../assets/images/gazzy.jpeg" alt="">
+                    </div>
+                    <div class="text-content">
+                        <h5>Play</h5>
+                        <p>Alan Walker</p>
+                    </div>
+                </div>
+                <div class="song-item">
+                    <div class="img-content-song">
+                        <img src="../assets/images/dizzy.jpg" alt="">
+                    </div>
+                    <div class="text-content">
+                        <h5>M3a l3echrane</h5>
+                        <p>Dizzy Dros</p>
                     </div>
                 </div>
             </div>
@@ -583,6 +619,7 @@ export default {
         width: 67%;
         margin-left: auto;
         margin-right: auto;
+        margin-bottom: 54px;
     }
 
     .cont-songs{
@@ -605,11 +642,12 @@ export default {
     }
 
     .title-rec{
-        margin-right: 32px;
+        /*  margin-right: 32px; */
         padding-top: 29px;
         padding-bottom: 10px;
         text-align: left;
-        min-width: 320px;
+        /* min-width: 320px; */
+        width: 49%;
     }
 
     .title-rec h4{
@@ -620,7 +658,7 @@ export default {
         position: relative;
         display: inline-block;
         margin: 1em;
-        padding: 0em 2em;
+        padding: 0em 1em;
         border: 0;
         border-radius: 30px;
         text-align: center;
@@ -635,6 +673,8 @@ export default {
         font-weight: 400;
 
         margin-top: 20px;
+
+        margin-left: auto;
     }
 
     .rec-btn:focus {
@@ -662,6 +702,7 @@ export default {
         width: 17%;
         margin-right: 3%;
         cursor: pointer;
+        margin-bottom: 22px;
     }
 
     .songs-items .song-item .img-content-song{
@@ -718,7 +759,7 @@ export default {
 
     .about-us p{
       font-size: 18px;
-      text-align: left;
+      text-align: justify;
     }
 
     .contact-email{
