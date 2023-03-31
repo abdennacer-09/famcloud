@@ -13,8 +13,8 @@
           ANY ARTIST, ANY SUBGENRE, ANY SONG
         </h1>
         <div class="col-sm-4">
-          <button class="listen-btn">
-            <span class="text-listen-btn"> Listen to Alan walker </span>
+          <button class="listen-btn" @click="zedd">
+            <span class="text-listen-btn"> Listen to Zedd </span>
             <img
               class="icon-listen-btn"
               src="../assets/images/spotify2.png"
@@ -28,8 +28,8 @@
           />
         </div>
         <div class="col-sm-4">
-          <button class="listen-btn">
-            <span class="text-listen-btn"> Listen to Martin Garix </span>
+          <button class="listen-btn" @click="martixGarrix">
+            <span class="text-listen-btn"> Listen to Martin Garrix </span>
             <img
               class="icon-listen-btn"
               src="../assets/images/spotify2.png"
@@ -43,8 +43,8 @@
           />
         </div>
         <div class="col-sm-4">
-          <button class="listen-btn">
-            <span class="text-listen-btn"> Listen to Shelby Sawy </span>
+          <button class="listen-btn" @click="kygo">
+            <span class="text-listen-btn"> Listen to Kygo </span>
             <img
               class="icon-listen-btn"
               src="../assets/images/spotify2.png"
@@ -214,6 +214,7 @@
       </div>
       <div class="cont-songs">
         <div class="songs-items d-flex flex-wrap">
+          <!-- use loops and all to generate the data from the backend data from getMusicData function -->
           <div class="song-item">
             <div class="img-content-song">
               <img src="../assets/images/shootout.jpeg" alt="" />
@@ -478,6 +479,7 @@ export default {
       file: null,
       genre: null,
       musicData: null,
+      access_token_code : "BQAFf56g3f1FhTdcP1l35DYHXsulax4vQbXF0qRDAHyH_6cBIL5S1UPWZydUGn2jSl3qoeDV2X8x2SChdzSSk43fG0wAo24m3gObjsEiEfv1nyKIQFzLuvr6g9xk4_pC3vSpPl9mD9EbcUEeljcNQLcFrXolf8yZavO_BIwyHHYOeOBI5gVEsnCEF-WYGVBJoHowZtXX9wl62xg8--ekCMAiRg8KCy8pdgVRCI_qq__6Cuj9sVE"
     };
   },
 
@@ -490,14 +492,21 @@ export default {
     },
   },
   methods: {
+
+    zedd() {
+      window.location.href = "https://open.spotify.com/artist/2qxJFvFYMEDqd7ui6kSAcq"
+    },
+
+
     login() {
       const client_id = "8f588a14b6d74f2b86c5ff82ab878d5c";
       const redirect_uri = "http://localhost:8080/";
       const scope =
-        "user-read-private user-read-email playlist-modify-private user-top-read";
+        "user-read-private user-read-email playlist-modify-private playlist-modify-public user-top-read";
       const url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`;
       window.location.href = url;
     },
+    // takes the access token from callback url
     mounted() {
       console.log("mounted");
       if (window.location.hash) {
@@ -505,6 +514,7 @@ export default {
           .split("&")[0]
           .split("=")[1];
         localStorage.setItem("access_token_code", access_token_code);
+        authorize()
       }
     },
     authorize() {
@@ -521,6 +531,8 @@ export default {
       this.file = fileInput.files[0];
       fileInput.click();
     },
+
+    // why the file is empty ?  
     submit() {
       console.log(this.file);
       const uri = "http://127.0.0.1:5000/upload";
@@ -531,6 +543,7 @@ export default {
       });
     },
 
+    // returns an array strucutre -> artists + recommended_songs
     getMusicData() {
       const uri = "http://127.0.0.1:5000/top_songs";
       axios.get(uri).then((response) => {
