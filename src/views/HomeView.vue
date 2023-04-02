@@ -57,7 +57,7 @@
     </div>
   </div>
   <div id="upload-section" class="upload-page">
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon1"
       width="62"
       height="68"
@@ -70,7 +70,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon2"
       width="38"
       height="80"
@@ -83,7 +83,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon3"
       width="38"
       height="80"
@@ -96,7 +96,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon4"
       width="38"
       height="80"
@@ -109,7 +109,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon5"
       width="38"
       height="80"
@@ -122,7 +122,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon6"
       width="62"
       height="68"
@@ -135,7 +135,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon7"
       width="62"
       height="68"
@@ -148,7 +148,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon8"
       width="62"
       height="68"
@@ -161,7 +161,7 @@
         fill="#2A1E1E"
       />
     </svg>
-    <svg
+    <svg v-if="songs.length > 0"
       class="music-icon9"
       width="38"
       height="80"
@@ -183,17 +183,19 @@
             type="text"
             class="form-control form-rounded"
             placeholder="Select a song .."
+            v-model="filename"
           />
-          <input type="file" id="input-music" class="music-input" />
+          <input @change="filesContent($event)" type="file" id="input-music" class="music-input" />
           <button @click="uploadFileMusic()" class="btn-s btn-browse">
             Browse
           </button>
         </div>
         <div class="bottom-btn-content">
           <button class="btn-s btn-sub" @click="submit">
-            <span class="btn-span-txt">Submit</span>
+            <span class="btn-span-txt" >Submit</span>
           </button>
         </div>
+        <h2 v-if="genre != null" style="margin-top: 30px; margin-bottom: 20px; font-weight: 300; " class="title-upload-page">The genre is <span style="font-weight: 800;">{{genre}}</span> </h2>
       </div>
     </div>
     <div class="recommendations">
@@ -203,7 +205,7 @@
           <h4>Similar songs you must listen</h4>
         </div>
         <hr class="line" />
-        <button class="rec-btn">
+        <button @click="changeFilterIndex" v-if="songs.length > 0" class="rec-btn">
           <span class="text-rec-btn"> Recommend more </span>
           <img
             class="icon-rec-btn"
@@ -213,8 +215,60 @@
         </button>
       </div>
       <div class="cont-songs">
-        <div class="songs-items d-flex flex-wrap">
+        <div v-if="isLoadingSongs" class="container-loading">
+            <div class="outerring">
+                <div class="innerring">
+                </div>
+            </div>
+        </div>
+        <div v-if="songs.length > 0" class="songs-items d-flex flex-wrap">
           <!-- use loops and all to generate the data from the backend data from getMusicData function -->
+          <div v-for="(song,index) in filteredSongs" :key="index"   class="song-item">
+            <div class="img-content-song">
+              <img :src="song.image" alt="" />
+            </div>
+            <div class="text-content">
+              <h5>{{ song.name }}</h5>
+              <!-- <p>Alan Walker</p> -->
+            </div>
+          </div>
+          <div v-if="false">
+            <div class="song-item">
+            <div class="img-content-song">
+              <img src="../assets/images/atlantis.jpeg" alt="" />
+            </div>
+            <div class="text-content">
+              <h5>Dark Side</h5>
+              <p>Alan Walker</p>
+            </div>
+          </div>
+          <div class="song-item">
+            <div class="img-content-song">
+              <img src="../assets/images/freefall.jpg" alt="" />
+            </div>
+            <div class="text-content">
+              <h5>Sweet Dreams</h5>
+              <p>Alan Walker</p>
+            </div>
+          </div>
+          <div class="song-item">
+            <div class="img-content-song">
+              <img src="../assets/images/gazzy.jpeg" alt="" />
+            </div>
+            <div class="text-content">
+              <h5>Play</h5>
+              <p>Alan Walker</p>
+            </div>
+          </div>
+          <div class="song-item">
+            <div class="img-content-song">
+              <img src="../assets/images/dizzy.jpg" alt="" />
+            </div>
+            <div class="text-content">
+              <h5>M3a l3echrane</h5>
+              <p>Dizzy Dros</p>
+            </div>
+          </div>
           <div class="song-item">
             <div class="img-content-song">
               <img src="../assets/images/shootout.jpeg" alt="" />
@@ -260,51 +314,8 @@
               <p>Dizzy Dros</p>
             </div>
           </div>
-          <div class="song-item">
-            <div class="img-content-song">
-              <img src="../assets/images/shootout.jpeg" alt="" />
-            </div>
-            <div class="text-content">
-              <h5>On my way</h5>
-              <p>Alan Walker</p>
-            </div>
           </div>
-          <div class="song-item">
-            <div class="img-content-song">
-              <img src="../assets/images/atlantis.jpeg" alt="" />
-            </div>
-            <div class="text-content">
-              <h5>Dark Side</h5>
-              <p>Alan Walker</p>
-            </div>
-          </div>
-          <div class="song-item">
-            <div class="img-content-song">
-              <img src="../assets/images/freefall.jpg" alt="" />
-            </div>
-            <div class="text-content">
-              <h5>Sweet Dreams</h5>
-              <p>Alan Walker</p>
-            </div>
-          </div>
-          <div class="song-item">
-            <div class="img-content-song">
-              <img src="../assets/images/gazzy.jpeg" alt="" />
-            </div>
-            <div class="text-content">
-              <h5>Play</h5>
-              <p>Alan Walker</p>
-            </div>
-          </div>
-          <div class="song-item">
-            <div class="img-content-song">
-              <img src="../assets/images/dizzy.jpg" alt="" />
-            </div>
-            <div class="text-content">
-              <h5>M3a l3echrane</h5>
-              <p>Dizzy Dros</p>
-            </div>
-          </div>
+          
         </div>
       </div>
       <!-- Recommendations 2 -->
@@ -314,18 +325,28 @@
         </div>
         <hr class="line no-rec-btn" />
       </div>
-      <div class="cont-songs">
+      <div v-if="isLoadingArtists" class="cont-songs">
+        <div  class="container-loading">
+          <div class="outerring">
+              <div class="innerring">
+              </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="artists.length > 0" class="cont-songs">
+        
         <div class="songs-items d-flex flex-wrap">
-          <div class="song-item">
+          <div v-for="(artist,index2) in artists" :key="index2" class="song-item">
             <div class="img-content-song">
-              <img src="../assets/images/shootout.jpeg" alt="" />
+              <img :src="artist.image" alt="" />
             </div>
             <div class="text-content">
-              <h5>On my way</h5>
-              <p>Alan Walker</p>
+              <!-- <h5>On my way</h5> -->
+              <p style="margin-top:10px;">{{ artist.name }}</p>
             </div>
           </div>
-          <div class="song-item">
+          <div v-if="false">
+            <div class="song-item">
             <div class="img-content-song">
               <img src="../assets/images/atlantis.jpeg" alt="" />
             </div>
@@ -361,10 +382,11 @@
               <p>Dizzy Dros</p>
             </div>
           </div>
+          </div>
         </div>
       </div>
       <!-- Recommendations 3 -->
-      <div class="rec-top">
+      <!-- <div class="rec-top">
         <div class="title-rec">
           <h4>Same Tempos</h4>
         </div>
@@ -418,7 +440,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div id="section-about" class="container about-us">
       <div>
@@ -470,86 +492,205 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
+import axios from 'axios'
 
 export default {
   name: "HomeView",
 
   data() {
     return {
+      isLoadingSongs :false,
+      isLoadingArtists : false,
+      recMore:false,
+      songs:[
+        // {
+        //   id:'',
+        //   image:'',
+        //   name:''
+              // link:''
+        // }
+      ],
+      artists:[
+          // {
+          //   id:'',
+          //   name:'',
+          //   image:'',
+          //   link:''
+          // }
+      ],
+      filterIndex: 4,
+      filename:'',
       file: null,
       genre: null,
       musicData: null,
-      access_token_code : "BQAFf56g3f1FhTdcP1l35DYHXsulax4vQbXF0qRDAHyH_6cBIL5S1UPWZydUGn2jSl3qoeDV2X8x2SChdzSSk43fG0wAo24m3gObjsEiEfv1nyKIQFzLuvr6g9xk4_pC3vSpPl9mD9EbcUEeljcNQLcFrXolf8yZavO_BIwyHHYOeOBI5gVEsnCEF-WYGVBJoHowZtXX9wl62xg8--ekCMAiRg8KCy8pdgVRCI_qq__6Cuj9sVE"
+      access_token_code : "BQAFAJQgMG5y1rhx0rPyNm7KhJQwUDDLVao2uDhWcgUPCYFNO-MHxOwUKHXqbFCZwnxD8fL8v3paXO2qyntXQNh-WjUZC4PrYk97P0d5YbPFc3euBnSF"
     };
+
+  //     {
+  //     "access_token": "BQAxeQQrCjN8rBA6p5rps6LtyrLbqF1uD2_brkVi2L_Vww4Urix17aInHz2zctYFWZUBOBVUVUeK1OeZRnAzxZY-lcEL5LZvr5wkORuSuksPDiB5Oq9R",
+  //     "token_type": "Bearer",
+  //     "expires_in": 3600
+  // }
   },
 
   components: {
     HelloWorld,
   },
+  mounted() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var codeVal = urlParams.get('code');
+    console.log(codeVal);
+    // if (window.location.hash) {
+    //   const access_token_code = window.location.hash
+    //     .split("&")[0]
+    //     .split("=")[1];
+    //   localStorage.setItem("access_token_code", access_token_code);
+    //   authorize()
+    // }
+    if (codeVal) {
+      const access_token_code = codeVal
+      localStorage.setItem("access_token_code", access_token_code);
+      this.authorize();
+    }
+    // let token = localStorage.getItem("access_token");
+    // if(token){
+    //   this.getMusicData();
+    // }
+  },
   computed: {
     isShownPopup() {
       return this.$store.state.showLogin;
     },
+    filteredSongs() {
+      return this.songs.filter((song, index) => index <= this.filterIndex)
+    }
   },
   methods: {
-
+    changeFilterIndex() {
+      this.filterIndex = 19;
+    },
     zedd() {
       window.location.href = "https://open.spotify.com/artist/2qxJFvFYMEDqd7ui6kSAcq"
     },
-
+    filesContent(e){
+      this.file = e.target.files[0];
+      console.log(this.file);
+      this.filename =this.file.name
+    },
 
     login() {
-      const client_id = "8f588a14b6d74f2b86c5ff82ab878d5c";
+      const client_id = "d01d96529f0a4984b141c4063863100d";
       const redirect_uri = "http://localhost:8080/";
-      const scope =
-        "user-read-private user-read-email playlist-modify-private playlist-modify-public user-top-read";
-      const url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=token&redirect_uri=${redirect_uri}&scope=${scope}`;
+      const scope ="user-read-private user-read-email playlist-modify-private playlist-modify-public user-top-read";
+      const url = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&scope=${scope}`;
       window.location.href = url;
     },
-    // takes the access token from callback url
-    mounted() {
-      console.log("mounted");
-      if (window.location.hash) {
-        const access_token_code = window.location.hash
-          .split("&")[0]
-          .split("=")[1];
-        localStorage.setItem("access_token_code", access_token_code);
-        authorize()
-      }
-    },
+    // takes the access token from callback url 
     authorize() {
       const uri = "http://127.0.0.1:5000/callback";
-      params = {
+      let params = {
         code: localStorage.getItem("access_token_code"),
       };
-      axios.get(uri, { params }).then((response) => {
+      axios.get(uri, { params,
+        
+      }).then((response) => {
         console.log(response);
+        let stringName = response.data;
+        var newStr = stringName.replace('Access token: ', '');
+        localStorage.setItem("access_token", newStr);
       });
+
+      // withCredentials : false,
+      //   headers:{
+      //     Accept: "application/json",
+      //     "Content-type" : "application/json",
+      //     // Authorization: currentUser && currentUser.token
+      //   }
     },
     uploadFileMusic() {
-      let fileInput = document.getElementById("input-music");
-      this.file = fileInput.files[0];
-      fileInput.click();
+      let token = localStorage.getItem("access_token");
+      if(token){
+        let fileInput = document.getElementById("input-music");
+        fileInput.click();
+      }else{
+        alert('You need to logged in with your spotify account');
+      }
+    
+      // this.file = fileInput.files[0];
+      // console.log(this.file);
     },
-
+    
     // why the file is empty ?  
-    submit() {
+    async submit() {
+      // this.authorize();
       console.log(this.file);
       const uri = "http://127.0.0.1:5000/upload";
       const formData = new FormData();
       formData.append("file", this.file);
-      axios.post(uri, formData).then((response) => {
+      await axios.post(uri, formData).then((response) => {
         this.genre = response.data.genre;
+        if(this.genre != null){
+          this.songs = [];
+          this.artists = [];
+          this.getMusicData();
+        }
       });
     },
 
     // returns an array strucutre -> artists + recommended_songs
-    getMusicData() {
-      const uri = "http://127.0.0.1:5000/top_songs";
-      axios.get(uri).then((response) => {
+    async getMusicData() {
+      this.isLoadingSongs = true;
+      this.isLoadingArtists = true;
+      const uri =`http://127.0.0.1:5000/top_songs`;
+      let params = {
+        // code: localStorage.getItem("access_token_code"),
+        genre:this.genre
+      };
+      await axios.get(uri,{ params, 
+        headers:{
+          Accept: "application/json",
+          "Content-type" : "application/json",
+          Authorization: localStorage.getItem("access_token")
+        }
+      }).then((response) => {
         console.log(response);
         this.musicData = response.data;
+        this.musicData.top_songs.id.forEach(element => {
+          this.songs.push({
+            id:element,
+            name:'',
+            image:''
+          })
+        });
+
+
+        for (let indexArtist = 0; indexArtist < this.musicData.artist_songs.length; indexArtist++) {
+          this.artists.push({
+            id:this.musicData.artist_songs[indexArtist][0].id,
+            name: this.musicData.artist_songs[indexArtist][0].artists[0].name,
+            image:this.musicData.artist_songs[indexArtist][0].album.images[0].url,
+            link:this.musicData.artist_songs[indexArtist][0].album.href
+          })
+        }
+
+        for (let index = 0; index < this.musicData.top_songs.name.length; index++) {
+          const elementOfName = this.musicData.top_songs.name[index];
+          this.songs[index].name = elementOfName;
+        }
+        for (let j = 0; j < this.musicData.top_songs.images.length; j++) {
+          const elementOfImage = this.musicData.top_songs.images[j];
+          this.songs[j].image = elementOfImage;
+        }
+        
+
+        console.log('songs ====>', this.songs);
+        console.log('artists =====>',this.artists);
+
+        this.isLoadingSongs = false;
+        this.isLoadingArtists = false;
+        
       });
+      console.log('musicData',this.musicData);
     },
   },
 };
@@ -835,6 +976,8 @@ export default {
 .cont-songs {
   width: 67%;
   margin-left: auto;
+  min-height: 200px;
+  position:relative;
   margin-right: auto;
 }
 
@@ -976,4 +1119,56 @@ export default {
   font-size: 19px;
   font-weight: 600;
 }
+
+
+.container-loading{
+    position: absolute;
+    top: 50%;
+    left: 50%; 
+    margin-left: auto;
+    margin-right: auto;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+}
+
+.outerring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    border: 5px solid #47dbdb;
+}
+
+.innerring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 2px);
+    height: calc(100% - 3px);
+    border-radius: 100%;
+    border: 5px solid #2255cb;
+    animation: breathe 4s linear infinite;
+}
+
+@keyframes breathe {
+    0% {
+        box-shadow: 0;
+    }
+    25% {
+        box-shadow: inset 0 0 20px 5px #2255cb;
+    }
+    50% {
+        box-shadow: inset 0 0 120px 5px #2255cb;
+    }
+    75% {
+        box-shadow: inset 0 0 20px 5px #2255cb;
+    }
+    100% {
+        box-shadow: 0;
+    }
+}
+
+
 </style>
