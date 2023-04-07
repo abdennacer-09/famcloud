@@ -12,8 +12,8 @@
         <h1 class="title-home position-absolute">
           ANY ARTIST, ANY SUBGENRE, ANY SONG
         </h1>
-        <div class="col-sm-4">
-          <button class="listen-btn" @click="zedd">
+        <div class="col-abs-img abs-1">
+          <button style=" position: relative; left: -8%;" class="listen-btn" @click="zedd">
             <span class="text-listen-btn"> Listen to Zedd </span>
             <img
               class="icon-listen-btn"
@@ -27,8 +27,8 @@
             alt=""
           />
         </div>
-        <div class="col-sm-4">
-          <button class="listen-btn" @click="martixGarrix">
+        <div class="col-abs-img abs-2">
+          <button style=" position: relative; left: -10%;" class="listen-btn" @click="martixGarrix">
             <span class="text-listen-btn"> Listen to Martin Garrix </span>
             <img
               class="icon-listen-btn"
@@ -42,7 +42,7 @@
             alt=""
           />
         </div>
-        <div class="col-sm-4">
+        <div class="col-abs-img abs-3">
           <button class="listen-btn" @click="kygo">
             <span class="text-listen-btn"> Listen to Kygo </span>
             <img
@@ -760,6 +760,9 @@ export default {
 .title-home {
   color: #fff;
   bottom: 40px;
+
+  z-index: 200;
+  top: 473px;
 }
 
 .listen-btn {
@@ -1169,6 +1172,32 @@ export default {
         box-shadow: 0;
     }
 }
+
+  .col-abs-img{
+    position: absolute;
+  }
+
+  .abs-1{
+    width: 42%;
+    left: 4%;
+    top: 37px;
+  }
+
+  .abs-2{
+    width: 42%;
+    left: 32%;
+    z-index: 100;
+    top: 33px;
+  }
+
+  .abs-3{
+    width: 45%;
+    right: -4%;
+    top: 34px;
+  }
+
+
+  
 
 
 </style>
