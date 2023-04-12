@@ -14,46 +14,35 @@
         <h1 class="title-home position-absolute">
           ANY ARTIST, ANY SUBGENRE, ANY SONG
         </h1>
-        <div class="col-abs-img abs-1">
-          <button style=" position: relative; left: -8%;" class="listen-btn" @click="zedd">
-            <span class="text-listen-btn"> Listen to Zedd </span>
-            <img
-              class="icon-listen-btn"
-              src="../assets/images/spotify2.png"
-              alt=""
-            />
-          </button>
-          <img
-            class="image-artist"
-            src="../assets/images/img1Home.png"
-            alt=""
-          />
-        </div>
-        <div class="col-abs-img abs-2">
-          <button style=" position: relative; left: -10%;" class="listen-btn" @click="martixGarrix">
-            <span class="text-listen-btn"> Listen to Martin Garrix </span>
-            <img
-              class="icon-listen-btn"
-              src="../assets/images/spotify2.png"
-              alt=""
-            />
-          </button>
-          <img
-            class="image-artist"
-            src="../assets/images/img2Home.png"
-            alt=""
-          />
-        </div>
-        <div class="col-abs-img abs-3">
-          <button class="listen-btn" @click="kygo">
-            <span class="text-listen-btn"> Listen to Kygo </span>
-            <img
-              class="icon-listen-btn"
-              src="../assets/images/spotify2.png"
-              alt=""
-            />
-          </button>
-          <img class="image-artist" src="../assets/images/kygo.png" alt="" />
+        <div>
+          <div class="d-flex cont-btns">
+            <button class="listen-btn lst-1" @click="zedd">
+              <span class="text-listen-btn"> Listen to Zedd </span>
+              <img
+                class="icon-listen-btn"
+                src="../assets/images/spotify2.png"
+                alt=""
+              />
+            </button>
+            <button class="listen-btn lst-2" @click="martixGarrix">
+              <span class="text-listen-btn"> Listen to Martin Garrix </span>
+              <img
+                class="icon-listen-btn"
+                src="../assets/images/spotify2.png"
+                alt=""
+              />
+            </button>
+            <button class="listen-btn lst-3" @click="kygo">
+              <span class="text-listen-btn"> Listen to Kygo </span>
+              <img
+                class="icon-listen-btn"
+                src="../assets/images/spotify2.png"
+                alt=""
+              />
+            </button>
+          </div>
+          
+          <img class="artists-img-preview" src="../assets/images/artists-img-preview.png" alt="">
         </div>
       </div>
     </div>
@@ -757,6 +746,33 @@ export default {
   background-color: #eddada;
   height: 100vh;
 }
+
+.artists-img-preview{
+  width: 100%;
+  margin-top: 80px;
+}
+
+.cont-btns{
+  position: relative;
+}
+
+.cont-btns .listen-btn{
+  position: absolute;
+}
+
+.cont-btns .listen-btn.lst-1{
+  left: 12%;
+} 
+
+.cont-btns .listen-btn.lst-2{
+  left: 39%;
+} 
+
+.cont-btns .listen-btn.lst-3{
+  left: 78%;
+} 
+
+
 
 .login-page {
   height: 100vh;
