@@ -1,5 +1,7 @@
 <template>
+  <!-- html code : Home page  -->
   <div class="home">
+    <!--  show the login popup  -->
     <div v-if="isShownPopup" class="login-box">
       <h2 class="title-login-box">Login with ..</h2>
       <button class="lg-btn" @click="login">
@@ -186,6 +188,7 @@
             v-model="filename"
           />
           <input @change="filesContent($event)" type="file" id="input-music" class="music-input" />
+          <!-- to upload file -->
           <button @click="uploadFileMusic()" class="btn-s btn-browse">
             Browse
           </button>
@@ -215,6 +218,14 @@
         </button>
       </div>
       <div class="cont-songs">
+        <button @click="createPlayList()"  v-if="songs.length > 0" class="rec-btn btn-create-playlist">
+          <span class="text-rec-btn"> Create a playlist with these songs </span>
+          <img
+            class="icon-rec-btn"
+            src="../assets/images/spotify2.png"
+            alt=""
+          />
+        </button>
         <div v-if="isLoadingSongs" class="container-loading">
             <div class="outerring">
                 <div class="innerring">
@@ -223,14 +234,18 @@
         </div>
         <div v-if="songs.length > 0" class="songs-items d-flex flex-wrap">
           <!-- use loops and all to generate the data from the backend data from getMusicData function -->
+
+          <!-- I dsiplay all the songs with images and names -->
           <div v-for="(song,index) in filteredSongs" :key="index"   class="song-item">
-            <div class="img-content-song">
-              <img :src="song.image" alt="" />
-            </div>
-            <div class="text-content">
-              <h5>{{ song.name }}</h5>
-              <!-- <p>Alan Walker</p> -->
-            </div>
+            <a target="_blank" :href="'https://open.spotify.com/track/'+song.id">
+              <div class="img-content-song">
+                <img :src="song.image" alt="" />
+              </div>
+              <div class="text-content">
+                <h5>{{ song.name }}</h5>
+                <!-- <p>Alan Walker</p> -->
+              </div>
+            </a>
           </div>
           <div v-if="false">
             <div class="song-item">
@@ -336,6 +351,7 @@
       <div v-if="artists.length > 0" class="cont-songs">
         
         <div class="songs-items d-flex flex-wrap">
+          <!-- I display all data of artists -->
           <div v-for="(artist,index2) in artists" :key="index2" class="song-item">
             <div class="img-content-song">
               <img :src="artist.image" alt="" />
@@ -518,6 +534,10 @@ export default {
           //   link:''
           // }
       ],
+      ids:[],
+      playlistName: '',
+      playListId: '',
+      songIds: '',
       filterIndex: 4,
       filename:'',
       file: null,
@@ -540,6 +560,7 @@ export default {
     var urlParams = new URLSearchParams(window.location.search);
     var codeVal = urlParams.get('code');
     console.log(codeVal);
+    
     // if (window.location.hash) {
     //   const access_token_code = window.location.hash
     //     .split("&")[0]
@@ -586,6 +607,8 @@ export default {
       window.location.href = url;
     },
     // takes the access token from callback url 
+
+    //check if i'm logged in
     authorize() {
       const uri = "http://127.0.0.1:5000/callback";
       let params = {
@@ -607,6 +630,7 @@ export default {
       //     // Authorization: currentUser && currentUser.token
       //   }
     },
+    // show files
     uploadFileMusic() {
       let token = localStorage.getItem("access_token");
       if(token){
@@ -621,6 +645,9 @@ export default {
     },
     
     // why the file is empty ?  
+
+
+    //sumbit the file music
     async submit() {
       // this.authorize();
       console.log(this.file);
@@ -638,6 +665,8 @@ export default {
     },
 
     // returns an array strucutre -> artists + recommended_songs
+
+    //get all data
     async getMusicData() {
       this.isLoadingSongs = true;
       this.isLoadingArtists = true;
@@ -656,6 +685,7 @@ export default {
         console.log(response);
         this.musicData = response.data;
         this.musicData.top_songs.id.forEach(element => {
+          this.ids.push(element);
           this.songs.push({
             id:element,
             name:'',
@@ -692,6 +722,33 @@ export default {
       });
       console.log('musicData',this.musicData);
     },
+
+    //create playlist
+    async createPlayList(){
+      if(this.genre != ''){
+        this.playlistName = this.genre;
+        let commaSeparatedIds = this.ids.join(',');
+        this.songIds = commaSeparatedIds;
+        console.log(commaSeparatedIds); 
+        const uri = "http://127.0.0.1:5000/create_playlist";
+        const formData = new FormData();
+        formData.append('playlistName', this.playlistName);
+        formData.append('song_ids', this.songIds);
+        const config = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: localStorage.getItem("access_token")
+          }
+        };
+        await axios.post(uri, formData,config).then((response) => {
+          this.playListId = response.data.playlist_id;
+          console.log('playlist id ===>', this.playListId);
+          window.open('https://open.spotify.com/playlist/'+this.playListId, '_blank');
+        }).catch(err => console.log(err));
+      }
+      
+    }
+
   },
 };
 </script>
@@ -1197,6 +1254,21 @@ export default {
   }
 
 
+  .rec-btn.btn-create-playlist{
+    margin-bottom: 52px;
+    margin-left:0;
+    margin-right:0;
+    margin-top: 0;
+  }
+
+  .song-item a{
+    text-decoration: none;
+    color: #2a1e1e;
+  }
+
+  .song-item a .text-content h5{
+    font-size: 15px;
+  }
   
 
 
